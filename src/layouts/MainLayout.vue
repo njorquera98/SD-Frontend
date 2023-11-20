@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          DAVID APP
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -87,7 +87,7 @@ const linksList = [
     link: 'https://facebook.quasar.dev'
   },
   {
-    title: 'Quasar Awesome',
+    title: 'Quasar AwesomeDAVID',
     caption: 'Community Quasar projects',
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
