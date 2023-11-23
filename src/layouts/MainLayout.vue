@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          DAVID APP
+          Gestor Medico
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -51,13 +51,13 @@ import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
-    title: 'Docs',
+    title: 'Nuevo Paciente',
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev'
   },
   {
-    title: 'Github',
+    title: 'Lista de Pacientes',
     caption: 'github.com/quasarframework',
     icon: 'code',
     link: 'https://github.com/quasarframework'
