@@ -10,7 +10,9 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/patient',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/NewPatient.vue') }],
+    children: [{ path: '', component: () => import('pages/NewPatient.vue') },
+    { path: '/register', component: () => import('pages/RegisterPage.vue') }
+  ],
   },
 
   // Always leave this as last one,
