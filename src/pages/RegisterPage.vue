@@ -1,101 +1,122 @@
 <template>
-    <q-page padding>
-        <q-card >
-            <q-form
-                @submit="onSubmit"
-                @reset="onReset"
-                class="q-gutter-md"
+  <div class="window-height window-width row justify-center items-center">
+    <q-card class="register-card">
+      <h2 class="text-h6 header-register">Registro de usuario</h2>
+      <div class="column q-pa-md q-gutter-md q-items-center">
+        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+          <q-input
+            filled
+            v-model="username"
+            class="full-width"
+            label="Nombre de usuario"
+            hint="Nombre de usuario"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Escriba Nombre de usuario']"
+          />
+          <q-input
+            filled
+            class="full-width"
+            v-model="name"
+            label="Ej: Jorge"
+            hint="Nombre"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Escriba Nombre']"
+          />
+          <q-input
+            filled
+            v-model="email"
+            class="full-width"
+            label="Ej: correo@gmail.com"
+            hint="Correo"
+            lazy-rules
+            :rules="[ 
+            val => val && val.length > 0 || 'Escriba Correo',
+            val => isEmailValid(val) || 'Correo no válido'
+            ]"
+          />
+          <div class="row q-gutter-y-md full-width">
+            <q-input
+              v-model="password"
+              filled
+              :type="isPwd ? 'password' : 'text'"
+              hint="Contraseña"
+              class="full-width"
+              :key="isPwd ? 'password-input' : 'text-input'"
             >
-            <q-input
-                filled
-                style="max-width: 300px"
-                v-model="username"
-                label="Nombre de usuario"
-                hint="Nombre de usuario"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Escriba Nombre de usuario']"
-            />
-            <p>
-            <q-input
-                filled
-                style="max-width: 300px"
-                v-model="name"
-                label="Ej:Jorge"
-                hint="Nombre"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Escriba nombre']"
-            />
-            <q-input
-                filled
-                v-model="last_names"
-                style="max-width: 300px"
-                label="Ej:Molina Gonzales"
-                hint="Apellidos"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Escriba Apellidos']"
-            />
-            </p>
-      <div class="row q-gutter-y-md column" style="max-width: 300px">
-          <q-input v-model="password" filled :type="isPwd ? 'password' : 'text'" hint="Contraseña">
-            <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-        </div>
-        <q-card-actions class="q-px-md">
-          <q-btn unelevated color="light-blue-7" size="lg" class="full-width" label="Registrar" />
-        </q-card-actions>
-    </q-form>
-        </q-card>
-    </q-page>
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+            </q-input>
+          </div>
+          <q-card-actions class="q-px-md">
+            <q-btn unelevated color="light-blue-7" size="lg" class="full-width" label="Registrar" />
+          </q-card-actions>
+        </q-form>
+      </div>
+    </q-card>
+  </div>
+
 </template>
 <script>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     const username = ref(null)
     const name = ref(null)
+    const password = ref(null)
     const accept = ref(false)
-    const last_names = ref(null)
+    const email = ref(null)
+    const isPwd = ref(true)
+
+    const isEmailValid = (value) => {
+      // Expresión regular que permite '@gmail.com' o '@alumnos.uta.cl'
+      const emailRegex = /^[a-zA-Z0-9._-]+@(gmail\.com|alumnos\.uta\.cl)$/;
+
+      return emailRegex.test(value);
+    };
+
+    const onSubmit = () => {
+      if (accept.value !== true) {
+        $q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'You need to accept the license and terms first'
+        })
+      } else {
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Submitted'
+        })
+      }
+    }
+
+    const onReset = () => {
+      name.value = null
+      age.value = null
+      accept.value = false
+    }
 
     return {
       username,
       name,
       accept,
-      last_names,
-
-      onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
-          $q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Submitted'
-          })
-        }
-      },
-
-      onReset () {
-        name.value = null
-        age.value = null
-        accept.value = false
-      }
+      email,
+      password,
+      isPwd,
+      isEmailValid,
+      onSubmit,
+      onReset
     }
   }
 }

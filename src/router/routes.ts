@@ -4,15 +4,24 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/',
-    component: () => import('pages/IndexPage.vue')
+    component: () => import('pages/IndexPage.vue'),
+  },
+  {
+
+    path: '/register',
+    component: () => import('pages/RegisterPage.vue'),
+  },
+  {
+
+    path: '/recuperar',
+    component: () => import('pages/RecuperarPass.vue'),
   },
 
   {
     path: '/patient',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/NewPatient.vue') },
-    { path: '/register', component: () => import('pages/RegisterPage.vue') }
-  ],
+    ],
   },
 
   // Always leave this as last one,
