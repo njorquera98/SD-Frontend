@@ -38,7 +38,7 @@
           <a href="#/recuperar">¿Olvidaste tu contraseña?</a>
         </q-card-section>
         <q-card-section class="text-center q-pa-none">
-          <p class="text-grey-6">¿No estás registrado? <a href="#/register">Regístrate</a></p>
+          <p class="text-grey-6">¿No estás registrado? <a href="#/tabla">Regístrate</a></p>
         </q-card-section>
       </div>
     </q-card>
