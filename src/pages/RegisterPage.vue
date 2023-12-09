@@ -108,7 +108,7 @@ export default {
 
         // Dirige a la ruta Inicio de sesion
         
-        router.push('#/index');
+        router.push('/');
 
         
 
