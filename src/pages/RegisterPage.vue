@@ -53,7 +53,14 @@
             </q-input>
           </div>
           <q-card-actions class="q-px-md">
-            <q-btn unelevated color="light-blue-7" size="lg" class="full-width" label="Registrar" />
+            <q-btn
+              unelevated
+              color="light-blue-7"
+              size="lg"
+              class="full-width"
+              label="Registrar"
+              type="submit"
+            />
           </q-card-actions>
         </q-form>
       </div>
@@ -64,10 +71,13 @@
 <script>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
+import { api } from 'boot/axios'
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const $q = useQuasar()
+    const router = useRouter();
 
     const username = ref(null)
     const name = ref(null)
@@ -83,23 +93,29 @@ export default {
       return emailRegex.test(value);
     };
 
-    const onSubmit = () => {
-      if (accept.value !== true) {
-        $q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'You need to accept the license and terms first'
-        })
-      } else {
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted'
-        })
+    const onSubmit = async () => {
+      try {
+        // Construye el objeto de datos a enviar al servidor
+        const userData = {
+          username: username.value,
+          name: name.value,
+          email: email.value,
+          password: password.value,
+        };
+
+        // Realiza la solicitud POST al servidor
+        const response = await api.post('http://localhost:3000/users', userData);
+
+        // Dirige a la ruta Inicio de sesion
+        
+        router.push('#/index');
+
+        
+
+      } catch (error) {
+        
       }
-    }
+    };
 
     const onReset = () => {
       name.value = null
