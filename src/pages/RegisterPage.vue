@@ -105,7 +105,12 @@ export default {
 
         // Realiza la solicitud POST al servidor
         const response = await api.post('http://localhost:3000/users', userData);
-
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'check_circle',
+          message: 'Usuario registrado con éxito',
+        });
         // Dirige a la ruta Inicio de sesion
         
         router.push('/');
@@ -113,7 +118,14 @@ export default {
         
 
       } catch (error) {
-        
+        //Notificacion de error al ingresar 
+        $q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: `Error al registrar usuario: nombre de usuario o correo ya registrado`,
+          //${error.message}
+        });
       }
     };
 
