@@ -1,7 +1,7 @@
 // app global css in SCSS form
 .login-card {
     width: 400px; /* ajusta el ancho según sea necesario */
-    height: 400px; /* ajusta la altura según sea necesario */
+    height: 430px; /* ajusta la altura según sea necesario */
   }
   .register-card {
     width: 400px; /* ajusta el ancho según sea necesario */
@@ -9,7 +9,15 @@
   }
   .recuperar-card {
     width: 400px; /* ajusta el ancho según sea necesario */
-    height: 370px; /* ajusta la altura según sea necesario */
+    height: 260px; /* ajusta la altura según sea necesario */
+  }
+  .espera-card {
+    width: 400px; /* ajusta el ancho según sea necesario */
+    height: 400px; /* ajusta la altura según sea necesario */
+  }
+  .cambiar-card {
+    width: 400px; /* ajusta el ancho según sea necesario */
+    height: 460px; /* ajusta la altura según sea necesario */
   }
   .header-register {
     text-align: center;

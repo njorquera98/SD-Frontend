@@ -55,6 +55,7 @@
           <q-card-actions class="q-px-md">
             <q-btn
               unelevated
+              rounded
               color="light-blue-7"
               size="lg"
               class="full-width"

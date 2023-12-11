@@ -7,9 +7,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/IndexPage.vue'),
   },
   {
+    path: '/cambiar',
+    component: () => import('pages/CambioPass.vue'),
+  },
+  {
 
     path: '/register',
     component: () => import('pages/RegisterPage.vue'),
+  },
+  {
+    path: '/espera',
+    component: () => import('pages/EsperarCodigo.vue'),
   },
   {
 
