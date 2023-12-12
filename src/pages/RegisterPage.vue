@@ -105,7 +105,7 @@ export default {
         };
 
         // Realiza la solicitud POST al servidor
-        const response = await api.post('http://localhost:3000/users', userData);
+        const response = await api.post('http://localhost:3000/auth/register', userData);
         $q.notify({
           color: 'green-4',
           textColor: 'white',
