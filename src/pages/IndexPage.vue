@@ -96,15 +96,16 @@ export default {
           this.$router.push(toPath)
           console.log('hola')
         }catch (err){
-          if(err.response.data.detail){
-            $q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: `Datos incorrectos`,
           
-        })
-          }
+          const errorMessage = err.response?.data?.message || 'Datos incorrectos';
+          $q.notify({
+            color: 'red-5',
+            textColor: 'white',
+            icon: 'warning',
+            message: errorMessage,
+          });
+
+          
         }
       }
     }
