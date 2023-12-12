@@ -1,14 +1,14 @@
 <template>
   <div class="window-height window-width row justify-center items-center">
     <q-card class="login-card">
-      <h2 class="text-h6 header-register">Inicio de sesión</h2>
-      <div class="column q-pa-md q-pa-md q-gutter-md q-items-center">
+      <h2 class="text-h6 header-register">Inicio de sesion</h2>
+      <q-form class="column q-pa-md q-pa-md q-gutter-md q-items-center" @submit.prevent="submitForm">
         <div class="row q-gutter-y-md column vertical-middle" style="max-width: 400px">
           <q-input 
             filled 
-            v-model="username" 
+            v-model="login.username" 
             placeholder="Jperez" 
-            hint="Username" 
+            hint="Nombre de usuario" 
             :dense="dense" 
             :key="'username-input'"
           />
@@ -16,7 +16,7 @@
         
         <div class="row q-gutter-y-md column" style="max-width: 400px">
           <q-input 
-            v-model="password" 
+            v-model="login.password" 
             filled 
             :type="isPwd ? 'password' : 'text'" 
             hint="Contraseña" 
@@ -32,74 +32,86 @@
           </q-input>
         </div>
         <q-card-actions class="q-px-md">
-          <q-btn 
-            unelevated 
-            rounded
-            color="light-blue-7" 
-            size="lg" 
-            class="full-width" 
-            label="Iniciar sesión" 
-            @click="login"
-          />
+          <q-btn rounded unelevated color="light-blue-7" size="lg" class="full-width" label="Iniciar sesión" type="submit"/>
         </q-card-actions>
         <q-card-section class="text-center q-pa-none">
           <a href="#/recuperar">¿Olvidaste tu contraseña?</a>
+        </q-card-section>
+        <q-card-section class="text-center q-pa-none">
           <p class="text-grey-6">¿No estás registrado? <a href="#/register">Regístrate</a></p>
         </q-card-section>
-      </div>
+      </q-form>
     </q-card>
   </div>
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
 import { ref } from 'vue';
 import axios from 'axios';
+import { useQuasar} from 'quasar';
+import { mapActions } from 'vuex';
+
+
+let $q
 
 export default {
-  setup() {
-    const $q = useQuasar()
-    const username = ref('');
-    const password = ref('');
-    const isPwd = ref(true);
-    
-
-    const login = () => {
-      axios.post('http://localhost:3000/auth/login', { username: username.value, password: password.value })
-        .then(response => {
-          // Manejar la respuesta del servidor aquí
-          const jwtToken = response.data.token;
-          console.log('Token JWT:', jwtToken);
-          // Almacenar el token en localStorage o en una cookie según tus necesidades
-          localStorage.setItem('jwtToken', jwtToken);
-          $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'check_circle',
-          message: 'Bienvenido',
-        });
-
-          // Redirigir a la página de inicio o realizar otras acciones después del inicio de sesión
-          window.location.href = '#/tabla';
-        })
-        .catch(error => {
-          // Manejar errores aquí
-          console.error('Error al intentar iniciar sesión:', error);
-          $q.notify({
+  data() {
+    return {
+      
+      isPwd: ref(true),
+      login: {
+        username: '',
+        password: ''
+        
+      }
+    };
+  },
+  methods: {
+    ...mapActions('auth', ['doLogin']),
+    async submitForm(){
+      if(!this.login.username || !this.login.password){
+        console.log('error')
+        $q.notify({
           color: 'red-5',
           textColor: 'white',
           icon: 'warning',
-          message: 'Error de inicio sesión',
-        });
-        });
-    };
-
-    return {
-      username,
-      password,
-      isPwd,
-      login,
-    };
+          message: `Datos ingresados invalidos`,
+          //${error.message}
+        })
+      }
+      else if(this.login.password.length < 6){
+        console.log('Contraseña corta')
+        $q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: `Minimo 6 caracteres de contraseña`,
+          
+        })
+      }
+      else{
+        try{
+          await this.doLogin(this.login)
+          const toPath = this.$route.query.to || '/table'
+          this.$router.push(toPath)
+          console.log('hola')
+        }catch (err){
+          if(err.response.data.detail){
+            $q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: `Datos incorrectos`,
+          
+        })
+          }
+        }
+      }
+    }
   },
+  mounted(){
+    $q = useQuasar()
+  }
+  
 };
 </script>

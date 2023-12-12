@@ -12,10 +12,11 @@
         />
 
         <q-toolbar-title>
-          Gestor Medico
+          Consulta Medica
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn stretch flat to="/" v-if="!isAuthenticated">Login</q-btn>
+        <q-btn stretch flat @click="logout" v-else>Logout</q-btn>
       </q-toolbar>
     </q-header>
 
@@ -40,24 +41,23 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
+<script>
+import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
-    title: 'Nuevo Paciente',
+    title: 'Docs',
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev'
   },
   {
-    title: 'Lista de Pacientes',
+    title: 'Github',
     caption: 'github.com/quasarframework',
     icon: 'code',
     link: 'https://github.com/quasarframework'
@@ -87,12 +87,15 @@ const linksList = [
     link: 'https://facebook.quasar.dev'
   },
   {
-    title: 'Quasar AwesomeDAVID',
+    title: 'Quasar Awesome',
     caption: 'Community Quasar projects',
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
   }
-];
+]
+
+import { defineComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -101,16 +104,23 @@ export default defineComponent({
     EssentialLink
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+  data () {
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      leftDrawerOpen: false,
+      essentialLinks: linksList
     }
+  },
+  methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerOpen.value = !this.leftDrawerOpen.value
+    },
+    logout () {
+      this.$store.dispatch('auth/signOut')
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated'])
   }
-});
+})
 </script>
