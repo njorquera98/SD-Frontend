@@ -20,6 +20,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/EsperarCodigo.vue'),
   },
   {
+    path: '/formulario',
+    component: () => import('pages/FormularioPage.vue'),
+  },
+  {
 
     path: '/recuperar',
     component: () => import('pages/RecuperarPass.vue'),
@@ -31,10 +35,11 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/patient',
+    path: '/patients',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/NewPatient.vue') },
-    { path: '/table', component: () => import('pages/TablePage.vue') },
+    children: [{ path: '/registerPatient', name: 'Pacientes', component: () => import('pages/NewPatient.vue') },
+    { path: '/table', component: () => import('pages/TablePage.vue'), meta: {requireLogin: true} },
+    
     
     ],
   },

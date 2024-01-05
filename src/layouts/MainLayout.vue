@@ -23,6 +23,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
+      side="left"
       bordered
     >
       <q-list>
@@ -101,26 +102,31 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
-  },
-
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksList
-    }
-  },
-  methods: {
-    toggleLeftDrawer () {
-      this.leftDrawerOpen.value = !this.leftDrawerOpen.value
+      EssentialLink
     },
-    logout () {
-      this.$store.dispatch('auth/signOut')
-      this.$router.push('/')
+
+    data () {
+      return {
+        leftDrawerOpen : false,
+        essentialLinks: linksList
+      }
+    },
+    created() {
+      // Método created se ejecuta cuando la instancia del componente se está creando
+      // Puedes configurar leftDrawerOpen aquí si deseas que esté cerrado al inicio
+      this.leftDrawerOpen = true;
+    },
+    methods: {
+      toggleLeftDrawer () {
+        this.leftDrawerOpen = !this.leftDrawerOpen
+      },
+      logout () {
+        this.$store.dispatch('auth/signOut')
+        this.$router.push('/')
+      }
+    },
+    computed: {
+      ...mapGetters('auth', ['isAuthenticated'])
     }
-  },
-  computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
-  }
-})
+  })
 </script>
