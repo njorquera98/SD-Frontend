@@ -61,7 +61,7 @@ export default defineComponent({
         }
       }
       const redirectToNewPage = () => {
-        // Reemplaza 'nombre-de-tu-ruta' con el nombre real de la ruta a la que deseas redirigir
+        // Reemplaza 'nombre-de-ruta' con el nombre real de la ruta a la que deseas redirigir
         router.push('/registerPatient'); 
       }
       const redirectToPatient = (row:any) => {
